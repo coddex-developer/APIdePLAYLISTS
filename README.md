@@ -73,7 +73,7 @@ Crie um arquivo .env e defina a variável PORT, se necessário.
 
 Inicie o servidor com:
 
-npm start
+npm test
 
 Acesse a API em http://localhost:8432 (ou na porta especificada).
 
