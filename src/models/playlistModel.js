@@ -1,9 +1,15 @@
 import { v4 as UUID } from "uuid";
 
-const playlists = [];
+const playlists = [{
+    id: "1",
+    title: "Titulo exemplo",
+    artist: "Orochi",
+    year: "2024",
+    album: "Vida rasa"
+}];
 
 export default {
-    //GET /
+    //GET All playlists
     allTags: () => {
         if (playlists.length === 0) {
             return { message: "Nenhuma tag encontrada." };
@@ -11,7 +17,7 @@ export default {
         return playlists;
     },
 
-    //POST /add_tag
+    //POST Tag
     addTag: (type) => {
         const existsTAG = playlists.find(tagname => tagname.type === type);
 
@@ -30,13 +36,13 @@ export default {
 
         return { message: `${createTagMusic.type} foi salvo com sucesso!` };
     },
-    //POST /:idTAG/add_music
+    //POST Music
     addMusic: (idTAG, title, artist, year, album) => {
 
         const tagID = playlists.findIndex(music => music.type === idTAG);
         const verifyMusicID = playlists[tagID].musics.find(music => music.title === title);
 
-        if (tagID === -1 ) {
+        if (tagID === -1) {
             return { message: "Tag não encontrada!" };
         }
 
@@ -58,5 +64,57 @@ export default {
 
         playlists[tagID].musics.push(newMusic);
         return { message: `${newMusic.title} foi salvo com sucesso!` };
+    },
+    //PUT Tag
+    editTag: (tagParams, type) => {
+        const existsTAG = playlists.findIndex(tagname => tagname.type === tagParams);
+        if (existsTAG === -1) {
+            return { message: "Tag não encontrada!" };
+        }
+        if (!type) {
+            return { message: "Preencha todos os campus corretamente!" };
+        }
+
+        playlists[existsTAG].tag = type.toLowerCase();
+        playlists[existsTAG].type = type;
+
+        return { message: "Tag atualizada com sucesso!" };
+    },
+    //PUT Music
+    editMusic: (musicParams, updateTitle, updateArtist, updateYear, updateAlbum) => {
+        const existsMusic = playlists.musics.findIndex(music => music.id === musicParams);
+        if (!existsMusic) {
+            return { message: "Música não encontrada!" };
+        }
+
+        if (!updateTitle || !updateArtist || !updateYear || !updateAlbum) {
+            return { message: "Preencha todos os campus corretamente!" };
+        }
+
+        playlists.musics[existsMusic].title = updateTitle;
+        playlists.musics[existsMusic].artist = updateArtist;
+        playlists.musics[existsMusic].year = updateYear;
+        playlists.musics[existsMusic].album = updateAlbum;
+
+        return { message: "Música atualizada com sucesso!" };
+    },
+    //DELETE Tag
+    deleteTag: (tagParams) => {
+        const existsTAG = playlists.findIndex(tagname => tagname.type === tagParams);
+        if (existsTAG === -1) {
+            return { message: "Tag não encontrada!" };
+        }
+        playlists.splice(existsTAG, 1);
+        return { message: "Tag excluída com sucesso!" };
+    },
+    //DELETE Music
+    deleteMusic: (musicParams) => {
+        const existsMusic = playlists.musics.findIndex(music => music.id === musicParams);
+        if (!existsMusic) {
+            return { message: "Música não encontrada!" };
+        }
+
+        playlists.musics.splice(existsMusic, 1);
+        return { message: "Música excluída com sucesso!" };
     }
 };
