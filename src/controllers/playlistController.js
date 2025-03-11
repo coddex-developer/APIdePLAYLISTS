@@ -26,15 +26,15 @@ export default {
             return res.json({ message: error });
         };
     },
-    //PUT /:idTag/update_tag
+    //PUT /:idTAG/update_tag
     runUpdateTag: (req, res) => {
         try {
             const { idTAG } = req.params;
-            const { updateTitle, updateArtist, updateYear, updateAlbum } = req.body;
+            const { updateType } = req.body;
             if (!idTAG) {
                 return res.status(404).json({ message: "Tag not found!" });
             }
-            const editTag = playlistModel.editTag(idTAG, updateTitle, updateArtist, updateYear, updateAlbum)
+            const editTag = playlistModel.editTag(idTAG, updateType)
             res.status(200).json(editTag);
         } catch (error) {
             return res.json({ message: error });

@@ -1,11 +1,10 @@
 import { v4 as UUID } from "uuid";
 
 const playlists = [{
-    id: "1",
-    title: "Titulo exemplo",
-    artist: "Orochi",
-    year: "2024",
-    album: "Vida rasa"
+    "id": "1",
+        "tag": "exemplo-01",
+        "type": "EXEMPLO-01",
+        "musics": []
 }];
 
 export default {
@@ -66,17 +65,17 @@ export default {
         return { message: `${newMusic.title} foi salvo com sucesso!` };
     },
     //PUT Tag
-    editTag: (tagParams, type) => {
-        const existsTAG = playlists.findIndex(tagname => tagname.type === tagParams);
+    editTag: (tagParams, updateType) => {
+        const existsTAG = playlists.findIndex(tagname => tagname.id === tagParams);
         if (existsTAG === -1) {
             return { message: "Tag não encontrada!" };
         }
-        if (!type) {
+        if (!updateType) {
             return { message: "Preencha todos os campus corretamente!" };
         }
 
-        playlists[existsTAG].tag = type.toLowerCase();
-        playlists[existsTAG].type = type;
+        playlists[existsTAG].tag = updateType.toLowerCase();
+        playlists[existsTAG].type = updateType;
 
         return { message: "Tag atualizada com sucesso!" };
     },
